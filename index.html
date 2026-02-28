@@ -4,308 +4,300 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>أحمد حسن خضر | خبير تسويق رقمي و SEO</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
     <style>
         :root {
-            --primary: #00d2ff; 
-            --secondary: #3a7bd5;
-            --text-light: #ffffff;
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --bg-color: #050510;
+            --primary: #8a2be2; /* البنفسجي */
+            --secondary: #00e5ff; /* الأزرق السماوي النيون */
+            --text-main: #ffffff;
+            --text-muted: #a0a0b0;
+            --glass-bg: rgba(20, 20, 35, 0.6);
+            --glass-border: rgba(138, 43, 226, 0.3);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; scroll-behavior: smooth; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
         
-        body { 
-            background-color: #050505; 
-            color: var(--text-light); 
-            overflow-x: hidden; 
-            line-height: 1.6; 
-        }
+        body { background-color: var(--bg-color); color: var(--text-main); overflow: hidden; }
 
-        /* 3D Canvas Background */
-        #bg-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
-        }
-
-        /* Glassmorphism Classes */
-        .glass-panel {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        }
+        /* 3D Background */
+        #canvas-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1; }
 
         /* Navbar */
-        header { position: fixed; top: 0; width: 100%; padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; z-index: 1000; background: rgba(5, 5, 5, 0.7); backdrop-filter: blur(15px); border-bottom: 1px solid var(--glass-border); }
-        .logo { font-size: 24px; font-weight: 900; letter-spacing: 1px; }
-        .logo span { color: var(--primary); text-shadow: 0 0 10px var(--primary); }
-        nav ul { display: flex; list-style: none; gap: 20px; }
-        nav ul li a { text-decoration: none; color: var(--text-light); font-weight: 600; transition: 0.3s; }
-        nav ul li a:hover { color: var(--primary); text-shadow: 0 0 8px var(--primary); }
-
-        /* Hero Section */
-        .hero { height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; flex-direction: column; padding: 0 20px; position: relative; perspective: 1000px; }
-        .hero h1 { font-size: 4.5rem; font-weight: 900; margin-bottom: 15px; text-shadow: 2px 4px 10px rgba(0,0,0,0.5); transform: translateZ(50px); }
-        .hero h1 span { color: var(--primary); }
-        .hero p { font-size: 1.4rem; color: #ccc; max-width: 700px; margin-bottom: 30px; transform: translateZ(30px); text-shadow: 1px 2px 5px rgba(0,0,0,0.8); }
+        nav { position: fixed; top: 0; width: 100%; padding: 20px 50px; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(5,5,16,0.8); backdrop-filter: blur(10px); border-bottom: 1px solid var(--glass-border); }
+        .logo { font-size: 26px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; }
+        .logo span { color: var(--secondary); text-shadow: 0 0 10px var(--secondary); }
         
-        /* 3D Button */
-        .btn { padding: 15px 40px; background: linear-gradient(45deg, var(--secondary), var(--primary)); color: white; border: none; border-radius: 30px; font-size: 1.2rem; cursor: pointer; text-decoration: none; font-weight: bold; transition: all 0.3s ease; display: inline-block; box-shadow: 0 10px 20px rgba(0, 210, 255, 0.3); transform-style: preserve-3d; }
-        .btn:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 15px 25px rgba(0, 210, 255, 0.5); }
+        .nav-links { display: flex; gap: 30px; list-style: none; }
+        .nav-links li { cursor: pointer; font-weight: 700; font-size: 1.1rem; transition: 0.3s; padding: 5px 10px; border-radius: 8px; }
+        .nav-links li:hover, .nav-links li.active { color: var(--secondary); background: rgba(0, 229, 255, 0.1); box-shadow: 0 0 15px rgba(0, 229, 255, 0.2); }
 
-        /* Sections General */
-        section { padding: 100px 5%; position: relative; z-index: 1; }
-        .section-title { text-align: center; font-size: 3rem; margin-bottom: 60px; font-weight: 900; text-shadow: 2px 2px 10px rgba(0,0,0,0.8); }
-        .section-title span { color: var(--primary); }
+        /* Page Container (3D Flip Effect) */
+        .pages-container { position: relative; width: 100vw; height: 100vh; perspective: 1500px; z-index: 10; padding-top: 80px; overflow-y: auto; overflow-x: hidden; }
+        
+        .page { position: absolute; top: 80px; left: 0; width: 100%; min-height: calc(100vh - 80px); padding: 50px 10%; display: none; opacity: 0; transform: rotateY(90deg); transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); transform-origin: left center; }
+        
+        .page.active { display: block; opacity: 1; transform: rotateY(0deg); }
+        .page.exit { transform: rotateY(-90deg); opacity: 0; transform-origin: right center; }
 
-        /* Stats */
-        .stats-container { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
-        .stat-box { text-align: center; padding: 30px; width: 200px; transform-style: preserve-3d; }
-        .stat-box h3 { font-size: 3.5rem; color: var(--primary); margin-bottom: 5px; font-weight: 900; transform: translateZ(40px); text-shadow: 0 0 15px rgba(0, 210, 255, 0.4); }
-        .stat-box p { color: #ddd; font-size: 1.1rem; transform: translateZ(20px); }
+        /* Titles */
+        .page-title { font-size: 3rem; font-weight: 900; margin-bottom: 40px; text-align: center; color: var(--text-main); text-shadow: 0 0 20px var(--primary); }
+        .page-title span { color: var(--secondary); }
 
-        /* About */
+        /* Page 1: Home */
+        .home-content { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; height: 70vh; }
+        .home-content h1 { font-size: 4.5rem; font-weight: 900; margin-bottom: 20px; text-shadow: 0 0 30px rgba(138, 43, 226, 0.6); }
+        .home-content h2 { font-size: 2rem; color: var(--secondary); margin-bottom: 30px; letter-spacing: 1px; }
+        .home-content p { font-size: 1.3rem; color: var(--text-muted); max-width: 800px; line-height: 1.8; margin-bottom: 40px; }
+        .btn { padding: 15px 40px; background: transparent; color: var(--secondary); border: 2px solid var(--secondary); border-radius: 30px; font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: 0.3s; box-shadow: 0 0 15px rgba(0, 229, 255, 0.2) inset; }
+        .btn:hover { background: var(--secondary); color: var(--bg-color); box-shadow: 0 0 30px var(--secondary); transform: translateY(-5px); }
+
+        /* Page 2: About */
         .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
-        .about-text h3 { font-size: 2.2rem; margin-bottom: 20px; }
-        .about-text p { color: #ddd; margin-bottom: 15px; font-size: 1.2rem; }
-        .info-list { list-style: none; margin-top: 20px; }
-        .info-list li { margin-bottom: 15px; display: flex; align-items: center; gap: 15px; font-size: 1.1rem; }
-        .info-list i { color: var(--primary); font-size: 1.5rem; width: 30px; text-align: center; }
+        .glass-box { background: var(--glass-bg); padding: 40px; border-radius: 20px; border: 1px solid var(--glass-border); backdrop-filter: blur(12px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); transform-style: preserve-3d; }
+        .glass-box h3 { font-size: 2rem; margin-bottom: 20px; color: var(--secondary); }
+        .glass-box p { font-size: 1.1rem; line-height: 1.8; color: #ddd; margin-bottom: 15px; }
+        .about-img img { width: 100%; border-radius: 20px; box-shadow: 0 0 30px var(--primary); transition: 0.5s; }
+        .about-img img:hover { transform: scale(1.05) rotateZ(2deg); }
+
+        /* Page 3: Services */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .service-card { text-align: center; transition: 0.4s; cursor: pointer; }
+        .service-card:hover { transform: translateY(-15px); border-color: var(--secondary); box-shadow: 0 15px 40px rgba(0, 229, 255, 0.2); }
+        .service-card i { font-size: 4rem; color: var(--primary); margin-bottom: 20px; text-shadow: 0 0 20px var(--primary); }
+        .service-card h3 { font-size: 1.5rem; margin-bottom: 15px; }
+        .service-card p { color: var(--text-muted); }
+
+        /* Page 4: Portfolio & Stats */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 50px; }
+        .stat-item { text-align: center; padding: 30px; border-top: 4px solid var(--secondary); background: linear-gradient(180deg, rgba(0,229,255,0.1) 0%, transparent 100%); }
+        .stat-item .num { font-size: 4rem; font-weight: 900; color: var(--text-main); text-shadow: 0 0 15px var(--secondary); }
+        .stat-item .desc { font-size: 1.2rem; color: var(--text-muted); }
         
-        .about-img { position: relative; perspective: 1000px; }
-        .about-img-inner { transform-style: preserve-3d; }
-        .about-img img { width: 100%; max-width: 400px; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); transform: translateZ(30px); }
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+        .project-card { position: relative; overflow: hidden; border-radius: 15px; border: 1px solid var(--glass-border); }
+        .project-content { padding: 30px; background: var(--glass-bg); height: 100%; }
+        .project-content h4 { color: var(--secondary); font-size: 1.4rem; margin-bottom: 10px; }
+        .project-content span { display: inline-block; padding: 5px 15px; background: rgba(138,43,226,0.3); border-radius: 20px; font-size: 0.9rem; margin-bottom: 15px; }
+        .project-content p { color: #ccc; font-size: 1rem; }
 
-        /* 3D Services Cards */
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; perspective: 1000px; }
-        .service-card { padding: 40px 30px; text-align: center; transform-style: preserve-3d; cursor: pointer; }
-        .service-card i { font-size: 3.5rem; color: var(--primary); margin-bottom: 20px; transform: translateZ(50px); text-shadow: 0 10px 20px rgba(0,0,0,0.5); }
-        .service-card h3 { margin-bottom: 15px; font-size: 1.5rem; transform: translateZ(30px); }
-        .service-card p { color: #ccc; font-size: 1rem; transform: translateZ(20px); }
-
-        /* 3D Timeline */
-        .timeline { display: flex; flex-direction: column; gap: 30px; max-width: 800px; margin: 0 auto; perspective: 1000px; }
-        .timeline-item { padding: 30px; position: relative; transform-style: preserve-3d; }
-        .timeline-item h3 { color: var(--primary); font-size: 1.4rem; margin-bottom: 5px; transform: translateZ(30px); }
-        .timeline-item h4 { color: #fff; font-size: 1.1rem; margin-bottom: 15px; transform: translateZ(25px); }
-        .timeline-item p { color: #ccc; font-size: 1rem; transform: translateZ(20px); }
-        .timeline-item .date { display: inline-block; color: #fff; background: var(--secondary); padding: 5px 15px; border-radius: 20px; font-weight: bold; margin-bottom: 15px; transform: translateZ(40px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-
-        /* Contact Form */
-        .contact-form { max-width: 600px; margin: 0 auto; padding: 40px; transform-style: preserve-3d; }
-        .contact-form input, .contact-form textarea { width: 100%; padding: 15px; margin-bottom: 20px; border-radius: 10px; border: 1px solid var(--glass-border); background: rgba(0,0,0,0.2); color: white; font-size: 1.1rem; outline: none; transition: 0.3s; transform: translateZ(20px); }
-        .contact-form input:focus, .contact-form textarea:focus { border-color: var(--primary); background: rgba(0,0,0,0.4); box-shadow: 0 0 15px rgba(0, 210, 255, 0.2); }
-        .contact-form button { width: 100%; transform: translateZ(30px); }
-
-        /* WhatsApp Floating Button */
-        .whatsapp-float { position: fixed; width: 60px; height: 60px; bottom: 40px; right: 40px; background-color: #25d366; color: #FFF; border-radius: 50px; text-align: center; font-size: 35px; box-shadow: 0px 4px 15px rgba(37, 211, 102, 0.4); z-index: 100; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: all 0.3s ease; }
-        .whatsapp-float:hover { transform: scale(1.1) rotate(10deg); background-color: #128c7e; }
-
-        footer { text-align: center; padding: 30px; background: rgba(0,0,0,0.8); border-top: 1px solid var(--glass-border); position: relative; z-index: 1; }
+        /* Page 5: Contact */
+        .contact-container { max-width: 600px; margin: 0 auto; }
+        .contact-form input, .contact-form textarea { width: 100%; padding: 18px; margin-bottom: 20px; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); color: white; font-size: 1.1rem; border-radius: 10px; outline: none; transition: 0.3s; }
+        .contact-form input:focus, .contact-form textarea:focus { border-color: var(--secondary); box-shadow: 0 0 15px rgba(0, 229, 255, 0.3); }
+        .contact-form button { width: 100%; }
+        .social-links { display: flex; justify-content: center; gap: 20px; margin-top: 30px; }
+        .social-links a { display: flex; justify-content: center; align-items: center; width: 50px; height: 50px; background: var(--glass-bg); border-radius: 50%; color: white; font-size: 1.5rem; text-decoration: none; transition: 0.3s; border: 1px solid var(--glass-border); }
+        .social-links a:hover { background: var(--secondary); color: #000; box-shadow: 0 0 20px var(--secondary); transform: translateY(-5px); }
 
         @media (max-width: 768px) {
-            header { flex-direction: column; gap: 15px; padding: 15px; }
-            .hero h1 { font-size: 2.8rem; }
+            nav { padding: 15px 20px; flex-direction: column; gap: 15px; }
+            .nav-links { gap: 10px; flex-wrap: wrap; justify-content: center; }
             .about-grid { grid-template-columns: 1fr; }
+            .home-content h1 { font-size: 3rem; }
         }
     </style>
 </head>
 <body>
 
-    <canvas id="bg-canvas"></canvas>
+    <canvas id="canvas-bg"></canvas>
 
-    <header class="glass-panel" style="border-radius: 0; border-top: none; border-left: none; border-right: none;">
-        <div class="logo">AHMED<span>.</span>KHADR</div>
-        <nav>
-            <ul>
-                <li><a href="#home">الرئيسية</a></li>
-                <li><a href="#about">عني</a></li>
-                <li><a href="#services">الخدمات</a></li>
-                <li><a href="#experience">الخبرات</a></li>
-            </ul>
-        </nav>
-    </header>
+    <nav>
+        <div class="logo">AHMED<span>.</span>SEO</div>
+        <ul class="nav-links">
+            <li class="active" onclick="changePage('home')">الرئيسية</li>
+            <li onclick="changePage('about')">عني</li>
+            <li onclick="changePage('services')">خدماتي</li>
+            <li onclick="changePage('portfolio')">بورتفوليو وأرقام</li>
+            <li onclick="changePage('contact')">تواصل معي</li>
+        </ul>
+    </nav>
 
-    <section id="home" class="hero">
-        <h1 data-aos="zoom-out">أحمد حسن خضر</h1>
-        <h2 data-aos="zoom-out" data-aos-delay="100" style="margin-bottom: 20px; color: var(--text-light); font-size: 2rem; transform: translateZ(40px);">خبير تسويق رقمي، متخصص <span>SEO</span> ومصمم</h2>
-        <p data-aos="zoom-out" data-aos-delay="200">أكثر من 6 سنوات من الخبرة في قيادة الاستراتيجيات التسويقية، تصدر نتائج محركات البحث، وتصميم هويات بصرية تترك أثراً.</p>
-        <div data-aos="fade-up" data-aos-delay="300">
-            <a href="#contact" class="btn">تواصل معي الآن</a>
-        </div>
-    </section>
+    <div class="pages-container">
+        
+        <section id="home" class="page active">
+            <div class="home-content">
+                <h1>أحمد حسن خضر</h1>
+                <h2>خبير تسويق رقمي و SEO</h2>
+                <p>أحول البيانات إلى استراتيجيات، والمحتوى إلى مبيعات. متخصص في قيادة النمو الرقمي للشركات وتصدر نتائج محركات البحث في أسواق تركيا والشرق الأوسط وأوروبا.</p>
+                <button class="btn" onclick="changePage('portfolio')">تصفح أرقامي وأعمالي</button>
+            </div>
+        </section>
 
-    <section>
-        <div class="stats-container" data-aos="fade-up">
-            <div class="stat-box glass-panel js-tilt">
-                <h3>+6</h3>
-                <p>سنوات خبرة</p>
-            </div>
-            <div class="stat-box glass-panel js-tilt">
-                <h3>+140</h3>
-                <p>متدرب تسويق</p>
-            </div>
-            <div class="stat-box glass-panel js-tilt">
-                <h3>+30</h3>
-                <p>دورة تدريبية</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="about">
-        <div class="section-title">من <span>أنا؟</span></div>
-        <div class="about-grid">
-            <div class="about-text glass-panel" style="padding: 40px;" data-aos="fade-left">
-                <h3>شغف بالنمو الرقمي والتأثير</h3>
-                <p>أنا متخصص في التسويق الرقمي وتحسين محركات البحث (SEO). أمتلك سجلاً حافلاً في تخطيط وتنفيذ حملات تسويقية تعتمد على البيانات لرفع عائد الاستثمار.</p>
-                <ul class="info-list">
-                    <li><i class="fas fa-graduation-cap"></i> إدارة وتنظيم - جامعة إسطنبول أريل</li>
-                    <li><i class="fas fa-globe"></i> العربية، الإنجليزية، التركية، الروسية</li>
-                    <li><i class="fas fa-map-marker-alt"></i> تركيا</li>
-                    <li><i class="fas fa-envelope"></i> ahmed.hassan@email.com</li>
-                </ul>
-            </div>
-            <div class="about-img js-tilt" data-aos="fade-right">
-                <div class="about-img-inner glass-panel" style="padding: 20px; display: inline-block;">
+        <section id="about" class="page">
+            <h2 class="page-title">من <span>أنا؟</span></h2>
+            <div class="about-grid">
+                <div class="glass-box">
+                    <h3>شغف بالنمو الرقمي والتنظيم</h3>
+                    <p>أنا مسوق إلكتروني متكامل، أدرس الإدارة والتنظيم في جامعة إسطنبول أريل، مما يمنحني رؤية إدارية أدمجها مع مهاراتي التسويقية.</p>
+                    <p>مقيم في تركيا، وأتقن 4 لغات (العربية، الإنجليزية، التركية، والروسية)، مما يسهل علي إدارة حملات تستهدف جماهير متنوعة بدقة واحترافية.</p>
+                    <ul style="list-style: none; margin-top: 20px; color: var(--secondary);">
+                        <li><i class="fas fa-check-circle"></i> تخطيط استراتيجي يعتمد على البيانات.</li>
+                        <li><i class="fas fa-check-circle"></i> خبرة في إدارة الميزانيات الإعلانية (ROI).</li>
+                        <li><i class="fas fa-check-circle"></i> قدرة على دمج التسويق مع التصميم الجرافيكي.</li>
+                    </ul>
+                </div>
+                <div class="about-img">
                     <img src="profile.jpg" alt="أحمد حسن خضر">
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="services">
-        <div class="section-title">ماذا <span>أقدم؟</span></div>
-        <div class="services-grid">
-            <div class="service-card glass-panel js-tilt" data-aos="fade-up">
-                <i class="fas fa-search"></i>
-                <h3>تحسين محركات البحث</h3>
-                <p>بحث الكلمات المفتاحية، تحسين السيو التقني، وتصدر نتائج جوجل.</p>
+        <section id="services" class="page">
+            <h2 class="page-title">خدماتي <span>الاحترافية</span></h2>
+            <div class="services-grid">
+                <div class="glass-box service-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>تحسين محركات البحث (SEO)</h3>
+                    <p>أقوم بتحليل الكلمات المفتاحية، وبناء استراتيجيات On-Page و Off-Page تضمن لك الظهور في الصفحة الأولى لجوجل.</p>
+                </div>
+                <div class="glass-box service-card">
+                    <i class="fas fa-bullhorn"></i>
+                    <h3>إدارة الحملات (Media Buying)</h3>
+                    <p>إطلاق وتحسين حملات ممولة على Google Ads و Meta باستهداف دقيق يحقق أعلى معدل تحويل (Conversion Rate).</p>
+                </div>
+                <div class="glass-box service-card">
+                    <i class="fas fa-pen-nib"></i>
+                    <h3>المحتوى والتصميم</h3>
+                    <p>تصميم هويات بصرية جذابة باستخدام أدوات التصميم ودمجها مع استراتيجيات تسويق المحتوى لتعزيز الوعي بالعلامة التجارية.</p>
+                </div>
             </div>
-            <div class="service-card glass-panel js-tilt" data-aos="fade-up" data-aos-delay="100">
-                <i class="fas fa-bullseye"></i>
-                <h3>الحملات الإعلانية</h3>
-                <p>إدارة احترافية لحملات Google و Meta باستهداف دقيق لزيادة المبيعات.</p>
+        </section>
+
+        <section id="portfolio" class="page">
+            <h2 class="page-title">لغة <span>الأرقام والأعمال</span></h2>
+            
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="num">+6</div>
+                    <div class="desc">سنوات من الخبرة العملية</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">+140</div>
+                    <div class="desc">متدرب في التسويق الرقمي</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">+30</div>
+                    <div class="desc">مجموعة تدريبية مكتملة</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">3</div>
+                    <div class="desc">قارات تم استهدافها إعلانياً</div>
+                </div>
             </div>
-            <div class="service-card glass-panel js-tilt" data-aos="fade-up" data-aos-delay="200">
-                <i class="fas fa-palette"></i>
-                <h3>التصميم الجرافيكي</h3>
-                <p>تصميم هويات بصرية ومحتوى جذاب يخدم أهدافك التسويقية.</p>
+
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-content">
+                        <h4>تطبيق القرآن والحديث</h4>
+                        <span>SEO & استراتيجية رقمية</span>
+                        <p>قيادة الحملات التسويقية لتطبيق إسلامي عالمي. إدارة السيو والمحتوى والإعلانات بهدف زيادة عدد التحميلات وتفاعل المستخدمين (2025 - الحاضر).</p>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-content">
+                        <h4>شركة Nivora</h4>
+                        <span>توسع وعلامة تجارية</span>
+                        <p>تطوير استراتيجيات سيو وسوشيال ميديا متكاملة أدت إلى توسيع تواجد العلامة التجارية بشكل ملحوظ في السوق التركي ومنطقة الشرق الأوسط (2024).</p>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-content">
+                        <h4>شركة المصطفى وجمعية رسالة</h4>
+                        <span>حملات متكاملة (مصر)</span>
+                        <p>إدارة حملات نمو الـ Leads، تحسين العائد على الاستثمار، وإدارة المبادرات الرقمية المجتمعية بنجاح ملموس (2019 - 2022).</p>
+                    </div>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="experience">
-        <div class="section-title">مسيرتي <span>المهنية</span></div>
-        <div class="timeline">
-            <div class="timeline-item glass-panel js-tilt" data-aos="fade-up">
-                <span class="date">2025 - الحاضر</span>
-                <h3>أخصائي تسويق رقمي</h3>
-                <h4>تطبيق القرآن والحديث | تركيا</h4>
-                <p>قيادة الاستراتيجية التسويقية للتطبيق، وإدارة حملات الـ SEO لزيادة التحميلات.</p>
+        <section id="contact" class="page">
+            <h2 class="page-title">لنتحدث عن <span>نمو أعمالك</span></h2>
+            <div class="contact-container glass-box">
+                <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                    <input type="text" name="name" placeholder="الاسم أو اسم الشركة" required>
+                    <input type="email" name="email" placeholder="البريد الإلكتروني" required>
+                    <input type="text" name="subject" placeholder="نوع الخدمة المطلوبة (SEO, Ads, الخ)" required>
+                    <textarea name="message" rows="5" placeholder="تفاصيل المشروع..." required></textarea>
+                    <button type="submit" class="btn">إرسال طلب الاستشارة</button>
+                </form>
+                
+                <div class="social-links">
+                    <a href="https://wa.me/905010946443" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="mailto:ahmed.hassan@email.com" title="Email"><i class="fas fa-envelope"></i></a>
+                    <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
             </div>
-            <div class="timeline-item glass-panel js-tilt" data-aos="fade-up">
-                <span class="date">2024</span>
-                <h3>أخصائي تسويق رقمي</h3>
-                <h4>Nivora | تركيا</h4>
-                <p>تطوير استراتيجيات SEO وسوشيال ميديا لتوسيع تواجد العلامة التجارية.</p>
-            </div>
-            <div class="timeline-item glass-panel js-tilt" data-aos="fade-up">
-                <span class="date">2020 - الحاضر</span>
-                <h3>مدرب تسويق رقمي</h3>
-                <h4>عمل حر</h4>
-                <p>تقديم دورات تدريبية لأكثر من 140 طالباً في مجالات التسويق الرقمي والسيو.</p>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="contact">
-        <div class="section-title">لنتحدث <span>عن مشروعك</span></div>
-        <div class="contact-form glass-panel js-tilt" data-aos="zoom-in">
-            <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-                <input type="text" name="name" placeholder="الاسم الكريم" required>
-                <input type="email" name="email" placeholder="البريد الإلكتروني" required>
-                <textarea name="message" rows="5" placeholder="كيف يمكنني مساعدتك؟" required></textarea>
-                <button type="submit" class="btn">إرسال الرسالة</button>
-            </form>
-        </div>
-    </section>
+    </div>
 
-    <a href="https://wa.me/905010946443" class="whatsapp-float" target="_blank">
-        <i class="fab fa-whatsapp"></i>
-    </a>
-
-    <footer>
-        <p>© 2026 أحمد حسن خضر. جميع الحقوق محفوظة.</p>
-    </footer>
-
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        // 1. Initialize Scroll Animations
-        AOS.init({ duration: 800, once: true });
+        // --- 1. Page Navigation Logic (3D Flip Effect) ---
+        function changePage(pageId) {
+            // Update active link
+            document.querySelectorAll('.nav-links li').forEach(li => li.classList.remove('active'));
+            event.target.classList.add('active');
 
-        // 2. Initialize 3D Tilt Effect on Cards
-        VanillaTilt.init(document.querySelectorAll(".js-tilt"), {
-            max: 15,
-            speed: 400,
-            glare: true,
-            "max-glare": 0.2,
-        });
+            // Get all pages
+            const pages = document.querySelectorAll('.page');
+            const targetPage = document.getElementById(pageId);
 
-        // 3. Initialize Three.js 3D Interactive Background
+            pages.forEach(page => {
+                if (page.classList.contains('active') && page !== targetPage) {
+                    page.classList.remove('active');
+                    page.classList.add('exit');
+                    setTimeout(() => {
+                        page.classList.remove('exit');
+                        page.style.display = 'none';
+                    }, 500); // match transition time
+                }
+            });
+
+            // Show target page
+            setTimeout(() => {
+                targetPage.style.display = 'block';
+                // Trigger reflow
+                void targetPage.offsetWidth;
+                targetPage.classList.add('active');
+            }, 50);
+        }
+
+        // --- 2. Three.js Background (Data Network) ---
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ canvas: document.querySelector('#bg-canvas'), alpha: true });
-        renderer.setPixelRatio(window.devicePixelRatio);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas-bg'), alpha: true, antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        camera.position.z = 50;
-
-        // Create 3D Particles
-        const geometry = new THREE.BufferGeometry();
-        const particlesCount = 1500;
-        const posArray = new Float32Array(particlesCount * 3);
-        for(let i = 0; i < particlesCount * 3; i++) {
-            posArray[i] = (Math.random() - 0.5) * 200; // Spread particles
-        }
-        geometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
         
-        // Material with the Primary Color
-        const material = new THREE.PointsMaterial({
-            size: 0.5,
-            color: 0x00d2ff,
-            transparent: true,
-            opacity: 0.8,
+        // Particles (Nodes)
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 800;
+        const posArray = new Float32Array(particlesCount * 3);
+        
+        for(let i = 0; i < particlesCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 15;
+        }
+        
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.02,
+            color: 0x00e5ff,
             blending: THREE.AdditiveBlending
         });
-
-        const particlesMesh = new THREE.Points(geometry, material);
-        scene.add(particlesMesh);
+        
+        const particleMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particleMesh);
+        
+        camera.position.z = 4;
 
         // Mouse Interaction
         let mouseX = 0;
         let mouseY = 0;
-        let targetX = 0;
-        let targetY = 0;
-        const windowHalfX = window.innerWidth / 2;
-        const windowHalfY = window.innerHeight / 2;
-
         document.addEventListener('mousemove', (event) => {
-            mouseX = (event.clientX - windowHalfX);
-            mouseY = (event.clientY - windowHalfY);
+            mouseX = event.clientX / window.innerWidth - 0.5;
+            mouseY = event.clientY / window.innerHeight - 0.5;
         });
 
         // Animation Loop
@@ -313,22 +305,20 @@
         function animate() {
             requestAnimationFrame(animate);
             const elapsedTime = clock.getElapsedTime();
+            
+            // Rotate entire network
+            particleMesh.rotation.y = elapsedTime * 0.05;
+            particleMesh.rotation.x = elapsedTime * 0.02;
 
-            // Auto rotation
-            particlesMesh.rotation.y = elapsedTime * 0.05;
-            particlesMesh.rotation.x = elapsedTime * 0.02;
-
-            // Mouse interactive rotation
-            targetX = mouseX * 0.001;
-            targetY = mouseY * 0.001;
-            particlesMesh.rotation.y += 0.05 * (targetX - particlesMesh.rotation.y);
-            particlesMesh.rotation.x += 0.05 * (targetY - particlesMesh.rotation.x);
+            // Mouse parallax effect
+            particleMesh.position.x += (mouseX * 0.5 - particleMesh.position.x) * 0.05;
+            particleMesh.position.y += (-mouseY * 0.5 - particleMesh.position.y) * 0.05;
 
             renderer.render(scene, camera);
         }
         animate();
 
-        // Responsive Canvas
+        // Responsive
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
